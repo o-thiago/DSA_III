@@ -1,0 +1,23 @@
+# Build outputs
+build/
+**/build/
+cmake-build-debug/
+**/cmake-build-debug/
+
+# Compilation database & cache
+compile_commands.json
+**/compile_commands.json
+.cache/
+**/.cache/
+
+# Environment & Editor
+.direnv/
+**/.direnv/
+.idea/
+**/.idea/
+.vscode/
+**/.vscode/
+
+# Pre-commit
+.pre-commit-config.yaml
+**/.pre-commit-config.yaml
