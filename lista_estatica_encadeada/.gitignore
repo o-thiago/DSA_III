@@ -1,0 +1,7 @@
+/build/
+/compile_commands.json
+/.cache/
+/.direnv/
+/cmake-build-debug/
+/.idea/
+/.pre-commit-config.yaml

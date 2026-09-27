@@ -1,0 +1,13 @@
+BasedOnStyle: LLVM
+IndentWidth: 4
+BreakBeforeBraces: Linux
+PointerAlignment: Right
+ColumnLimit: 80
+SpaceBeforeParens: ControlStatements
+
+InsertBraces: false
+RemoveBracesLLVM: true
+AllowShortBlocksOnASingleLine: Empty
+AllowShortFunctionsOnASingleLine: None
+AllowShortIfStatementsOnASingleLine: WithoutElse
+AllowShortLoopsOnASingleLine: true
