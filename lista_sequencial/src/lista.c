@@ -6,6 +6,7 @@
 
 void elemento_exibir(const struct elemento *elemento)
 {
+    if (!elemento) return;
     printf("[Chave: %d | Valor: %d]", elemento->chave, elemento->value);
 }
 
@@ -22,7 +23,7 @@ void lista_destruir(struct lista *lista)
 
 bool lista_is_vazia(const struct lista *lista)
 {
-    return lista->tamanho_atual == 0;
+    return !lista || lista->tamanho_atual == 0;
 }
 
 bool lista_inserir_inicio(struct lista *lista, const struct elemento *elemento)
@@ -136,19 +137,11 @@ bool lista_indice_de(const struct lista *lista, const int chave, size_t *indice)
 {
     if (!lista || !indice) return false;
 
-    size_t lo = 0;
-    size_t hi = lista->tamanho_atual;
-
-    while (lo < hi) {
-        const size_t mid = lo + ((hi - lo) / 2);
-        if (lista->dados[mid].chave == chave) {
-            *indice = mid;
+    for (size_t i = 0; i < lista->tamanho_atual; ++i) {
+        if (lista->dados[i].chave == chave) {
+            *indice = i;
             return true;
         }
-        if (lista->dados[mid].chave > chave)
-            hi = mid;
-        else
-            lo = mid + 1;
     }
 
     return false;
@@ -175,52 +168,41 @@ size_t lista_tamanho_recursivo(const struct lista *lista)
     return lista_tamanho_recursivo_aux(lista, 0, 0);
 }
 
-static const struct elemento *
-lista_buscar_recursivo_aux(const struct lista *lista, const int chave,
-                           const size_t indice)
+static void lista_exibir_recursivo_aux(const struct lista *lista,
+                                       const size_t indice)
 {
-    if (indice >= lista->tamanho_atual) return nullptr;
-    if (lista->dados[indice].chave == chave) return &lista->dados[indice];
+    if (indice >= lista->tamanho_atual) return;
 
-    return lista_buscar_recursivo_aux(lista, chave, indice + 1);
-}
-
-const struct elemento *lista_buscar_recursivo(const struct lista *lista,
-                                              const int chave)
-{
-    if (!lista) return nullptr;
-
-    return lista_buscar_recursivo_aux(lista, chave, 0);
-}
-
-static void lista_exibir_recursivo_aux(const struct elemento *ptr,
-                                       const size_t restante,
-                                       const ptrdiff_t passo)
-{
-    if (restante == 0) {
-        putchar('\n');
-        return;
-    }
-
-    elemento_exibir(ptr);
+    printf("%zu: ", indice);
+    elemento_exibir(&lista->dados[indice]);
     putchar('\n');
 
-    lista_exibir_recursivo_aux(ptr + passo, restante - 1, passo);
+    lista_exibir_recursivo_aux(lista, indice + 1);
 }
 
 void lista_exibir_recursivo(const struct lista *lista)
 {
-    if (!lista) return;
+    if (!lista || lista_is_vazia(lista)) return;
+    lista_exibir_recursivo_aux(lista, 0);
+}
 
-    lista_exibir_recursivo_aux(lista->dados, lista->tamanho_atual, 1);
+static void lista_exibir_inverso_recursivo_aux(const struct lista *lista,
+                                               const size_t restante)
+{
+    if (restante == 0) return;
+
+    const size_t indice = restante - 1;
+    printf("%zu: ", indice);
+    elemento_exibir(&lista->dados[indice]);
+    putchar('\n');
+
+    lista_exibir_inverso_recursivo_aux(lista, restante - 1);
 }
 
 void lista_exibir_inverso_recursivo(const struct lista *lista)
 {
     if (!lista || lista_is_vazia(lista)) return;
-
-    lista_exibir_recursivo_aux(&lista->dados[lista->tamanho_atual - 1],
-                               lista->tamanho_atual, -1);
+    lista_exibir_inverso_recursivo_aux(lista, lista->tamanho_atual);
 }
 
 size_t lista_contar_maiores(const struct lista *lista, const int chave)

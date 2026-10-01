@@ -15,10 +15,13 @@ void lista_iniciar(struct lista *lista)
 {
     if (!lista) return;
 
-    *lista = (struct lista){
-        .inicio = NODO_VAZIO,
-    };
+    lista->inicio = NODO_VAZIO;
+    if (LISTA_CAPACIDADE == 0) {
+        lista->disponivel = NODO_VAZIO;
+        return;
+    }
 
+    lista->disponivel = 0;
     for (size_t i = 0; i < LISTA_CAPACIDADE - 1; ++i)
         lista->nodos[i].proximo = i + 1;
 
@@ -32,7 +35,7 @@ void lista_destruir(struct lista *lista)
 
 bool lista_is_vazia(const struct lista *lista)
 {
-    return lista->inicio == NODO_VAZIO;
+    return !lista || lista->inicio == NODO_VAZIO;
 }
 
 bool lista_inserir_inicio(struct lista *lista, const struct elemento *elemento)

@@ -1,5 +1,5 @@
-#ifndef C_TEMPLATE_MENU_H
-#define C_TEMPLATE_MENU_H
+#ifndef MENU_H
+#define MENU_H
 
 #include "lista.h"
 
@@ -36,4 +36,4 @@ const char *menu_option_get_name(enum menu_option option);
 
 void menu_show(void);
 
-#endif // C_TEMPLATE_MENU_H
+#endif // MENU_H
