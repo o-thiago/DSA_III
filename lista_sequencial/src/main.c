@@ -187,7 +187,7 @@ static bool handle_option(const struct application_data *app_data,
     }
 }
 
-int main(void)
+int main()
 {
     char buffer[BUFSIZ];
 

@@ -157,15 +157,11 @@ void lista_exibir(const struct lista *lista)
 {
     if (!lista) return;
 
-    size_t atual = lista->inicio;
-    size_t idx = 0;
-
-    while (atual != NODO_VAZIO) {
-        printf("%zu: ", idx++);
+    for (size_t atual = lista->inicio, idx = 0; atual != NODO_VAZIO;
+         atual = lista->nodos[atual].proximo, ++idx) {
+        printf("%zu: ", idx);
         elemento_exibir(&lista->nodos[atual].elemento);
         putchar('\n');
-
-        atual = lista->nodos[atual].proximo;
     }
 }
 
@@ -173,13 +169,10 @@ const struct elemento *lista_buscar(const struct lista *lista, const int chave)
 {
     if (!lista) return nullptr;
 
-    size_t atual = lista->inicio;
-    while (atual != NODO_VAZIO) {
+    for (size_t atual = lista->inicio; atual != NODO_VAZIO;
+         atual = lista->nodos[atual].proximo)
         if (lista->nodos[atual].elemento.chave == chave)
             return &lista->nodos[atual].elemento;
-
-        atual = lista->nodos[atual].proximo;
-    }
 
     return nullptr;
 }
@@ -188,16 +181,12 @@ bool lista_indice_de(const struct lista *lista, const int chave, size_t *indice)
 {
     if (!lista || !indice) return false;
 
-    size_t atual = lista->inicio;
-    size_t pos = 0;
-    while (atual != NODO_VAZIO) {
+    for (size_t atual = lista->inicio, pos = 0; atual != NODO_VAZIO;
+         atual = lista->nodos[atual].proximo, ++pos) {
         if (lista->nodos[atual].elemento.chave == chave) {
             *indice = pos;
             return true;
         }
-
-        atual = lista->nodos[atual].proximo;
-        pos++;
     }
 
     return false;
@@ -207,12 +196,10 @@ size_t lista_tamanho(const struct lista *lista)
 {
     if (!lista) return 0;
 
-    size_t atual = lista->inicio;
     size_t tamanho = 0;
-    while (atual != NODO_VAZIO) {
-        atual = lista->nodos[atual].proximo;
+    for (size_t atual = lista->inicio; atual != NODO_VAZIO;
+         atual = lista->nodos[atual].proximo)
         tamanho++;
-    }
 
     return tamanho;
 }
@@ -292,13 +279,10 @@ size_t lista_contar_maiores(const struct lista *lista, const int chave)
 {
     if (!lista) return 0;
 
-    size_t atual = lista->inicio;
     size_t qt_maior = 0;
-
-    while (atual != NODO_VAZIO) {
+    for (size_t atual = lista->inicio; atual != NODO_VAZIO;
+         atual = lista->nodos[atual].proximo)
         if (lista->nodos[atual].elemento.chave > chave) qt_maior++;
-        atual = lista->nodos[atual].proximo;
-    }
 
     return qt_maior;
 }

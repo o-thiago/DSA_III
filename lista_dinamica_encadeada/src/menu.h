@@ -1,0 +1,39 @@
+#ifndef MENU_H
+#define MENU_H
+
+#include "lista.h"
+
+struct application_data {
+    struct lista *lista;
+
+    char *input;
+    int input_size;
+};
+
+enum menu_option {
+    MENU_OPTION_SAIR = 0,
+    MENU_OPTION_VERIFY_VAZIA,
+    MENU_OPTION_INSERT_INICIO,
+    MENU_OPTION_INSERT_FINAL,
+    MENU_OPTION_INSERT_ORDENADO,
+    MENU_OPTION_REMOVER_INICIO,
+    MENU_OPTION_REMOVER_FINAL,
+    MENU_OPTION_REMOVER_CHAVE,
+    MENU_OPTION_BUSCAR,
+    MENU_OPTION_EXIBIR,
+    MENU_OPTION_EXIBIR_RECURSIVO,
+    MENU_OPTION_EXIBIR_INVERSO,
+    MENU_OPTION_TAMANHO,
+    MENU_OPTION_TAMANHO_RECURSIVO,
+    MENU_OPTION_BUSCAR_RECURSIVO,
+    MENU_OPTION_CONTAR_MAIORES_X,
+    MENU_OPTION_CONTAR_MAIORES_X_RECURSIVO,
+    MENU_OPTION_DESTRUIR,
+    MENU_OPTION_COUNT_OPTIONS,
+};
+
+const char *menu_option_get_name(enum menu_option option);
+
+void menu_show(void);
+
+#endif // MENU_H
