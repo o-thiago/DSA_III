@@ -168,6 +168,23 @@ size_t lista_tamanho_recursivo(const struct lista *lista)
     return lista_tamanho_recursivo_aux(lista, 0, 0);
 }
 
+static const struct elemento *
+lista_buscar_recursivo_aux(const struct lista *lista, const int chave,
+                           const size_t indice)
+{
+    if (indice >= lista->tamanho_atual) return nullptr;
+    if (lista->dados[indice].chave == chave) return &lista->dados[indice];
+
+    return lista_buscar_recursivo_aux(lista, chave, indice + 1);
+}
+
+const struct elemento *lista_buscar_recursivo(const struct lista *lista,
+                                              const int chave)
+{
+    if (!lista || lista_is_vazia(lista)) return nullptr;
+    return lista_buscar_recursivo_aux(lista, chave, 0);
+}
+
 static void lista_exibir_recursivo_aux(const struct lista *lista,
                                        const size_t indice)
 {

@@ -8,6 +8,7 @@ static constexpr size_t NODO_VAZIO = SIZE_MAX;
 
 void elemento_exibir(const struct elemento *elemento)
 {
+    if (!elemento) return;
     printf("[Chave: %d | Valor: %d]", elemento->chave, elemento->value);
 }
 
@@ -241,29 +242,35 @@ const struct elemento *lista_buscar_recursivo(const struct lista *lista,
 }
 
 static void lista_exibir_recursivo_linear_aux(const struct lista *lista,
-                                              const size_t cur)
+                                              const size_t cur,
+                                              const size_t idx)
 {
     if (cur == NODO_VAZIO) return;
 
+    printf("%zu: ", idx);
     elemento_exibir(&lista->nodos[cur].elemento);
     putchar('\n');
 
-    lista_exibir_recursivo_linear_aux(lista, lista->nodos[cur].proximo);
+    lista_exibir_recursivo_linear_aux(lista, lista->nodos[cur].proximo,
+                                      idx + 1);
 }
 
 void lista_exibir_recursivo(const struct lista *lista)
 {
-    if (!lista) return;
+    if (!lista || lista_is_vazia(lista)) return;
 
-    lista_exibir_recursivo_linear_aux(lista, lista->inicio);
+    lista_exibir_recursivo_linear_aux(lista, lista->inicio, 0);
 }
 
 static void lista_exibir_recursivo_reverso_aux(const struct lista *lista,
-                                               const size_t cur)
+                                               const size_t cur,
+                                               const size_t idx)
 {
     if (cur == NODO_VAZIO) return;
-    lista_exibir_recursivo_reverso_aux(lista, lista->nodos[cur].proximo);
+    lista_exibir_recursivo_reverso_aux(lista, lista->nodos[cur].proximo,
+                                       idx + 1);
 
+    printf("%zu: ", idx);
     elemento_exibir(&lista->nodos[cur].elemento);
     putchar('\n');
 }
@@ -272,7 +279,7 @@ void lista_exibir_inverso_recursivo(const struct lista *lista)
 {
     if (!lista || lista_is_vazia(lista)) return;
 
-    lista_exibir_recursivo_reverso_aux(lista, lista->inicio);
+    lista_exibir_recursivo_reverso_aux(lista, lista->inicio, 0);
 }
 
 size_t lista_contar_maiores(const struct lista *lista, const int chave)

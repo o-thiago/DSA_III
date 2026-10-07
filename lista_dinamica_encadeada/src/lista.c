@@ -6,6 +6,7 @@
 
 void elemento_exibir(const struct elemento *elemento)
 {
+    if (!elemento) return;
     printf("[Chave: %d | Valor: %d]", elemento->chave, elemento->value);
 }
 
@@ -18,6 +19,8 @@ void lista_iniciar(struct lista *lista)
 
 void lista_destruir(struct lista *lista)
 {
+    if (!lista) return;
+
     while (lista->inicio) {
         struct nodo *removido = lista->inicio;
         lista->inicio = removido->proximo;
@@ -225,28 +228,32 @@ const struct elemento *lista_buscar_recursivo(const struct lista *lista,
     return lista_buscar_recursivo_aux(chave, lista->inicio);
 }
 
-static void lista_exibir_recursivo_linear_aux(const struct nodo *atual)
+static void lista_exibir_recursivo_linear_aux(const struct nodo *atual,
+                                              const size_t idx)
 {
     if (!atual) return;
 
+    printf("%zu: ", idx);
     elemento_exibir(&atual->elemento);
     putchar('\n');
 
-    lista_exibir_recursivo_linear_aux(atual->proximo);
+    lista_exibir_recursivo_linear_aux(atual->proximo, idx + 1);
 }
 
 void lista_exibir_recursivo(const struct lista *lista)
 {
-    if (!lista) return;
+    if (!lista || lista_is_vazia(lista)) return;
 
-    lista_exibir_recursivo_linear_aux(lista->inicio);
+    lista_exibir_recursivo_linear_aux(lista->inicio, 0);
 }
 
-static void lista_exibir_recursivo_reverso_aux(const struct nodo *atual)
+static void lista_exibir_recursivo_reverso_aux(const struct nodo *atual,
+                                               const size_t idx)
 {
     if (!atual) return;
-    lista_exibir_recursivo_reverso_aux(atual->proximo);
+    lista_exibir_recursivo_reverso_aux(atual->proximo, idx + 1);
 
+    printf("%zu: ", idx);
     elemento_exibir(&atual->elemento);
     putchar('\n');
 }
@@ -255,7 +262,7 @@ void lista_exibir_inverso_recursivo(const struct lista *lista)
 {
     if (!lista || lista_is_vazia(lista)) return;
 
-    lista_exibir_recursivo_reverso_aux(lista->inicio);
+    lista_exibir_recursivo_reverso_aux(lista->inicio, 0);
 }
 
 size_t lista_contar_maiores(const struct lista *lista, const int chave)

@@ -218,7 +218,7 @@ int main()
             continue;
         }
 
-        const auto option = (enum menu_option)raw_option;
+        auto const option = (enum menu_option)raw_option;
         if (option == MENU_OPTION_SAIR) break;
 
         if (!handle_option(&app_data, option) &&
